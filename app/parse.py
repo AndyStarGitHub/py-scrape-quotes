@@ -36,9 +36,6 @@ def get_quotes() -> list[Quote]:
     return result
 
 
-
-
-
 def page_generator(url: str) -> Generator[BeautifulSoup, None, None]:
     """
     Generate a BeautifulSoup object from page content for each page
