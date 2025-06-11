@@ -40,8 +40,9 @@ def page_generator(url: str) -> Generator[BeautifulSoup, None, None]:
     """
     Generate a BeautifulSoup object from page content for each page
     """
-    page_counter = 1
+    page_counter = 0
     while True:
+        page_counter += 1
         page_url = urljoin(url, f"page/{page_counter}/")
         if content := fetch_page_content(page_url):
             yield BeautifulSoup(content, "lxml")
@@ -50,7 +51,6 @@ def page_generator(url: str) -> Generator[BeautifulSoup, None, None]:
         soup = BeautifulSoup(content, "lxml")
         if not soup.select(".quote"):
             break
-        page_counter += 1
 
 
 def export_to_csv(quotes: list[Quote], output_csv_path: str) -> None:
@@ -71,7 +71,7 @@ def fetch_page_content(url: str) -> bytes | None:
 
 def main(output_csv_path: str) -> None:
     quotes = get_quotes()
-    export_to_csv(quotes, "quotes_selected.csv")
+    export_to_csv(quotes, output_csv_path)
 
 
 if __name__ == "__main__":
